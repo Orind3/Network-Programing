@@ -15,9 +15,7 @@ typedef struct sockaddr_in sockaddr_in;
 
 
 int main(int argc,char * argv[]){
-    if(argc!=3){
-        printf("Please use this fomat: sv_client <server_ip_address> <server_port>\n");
-    }
+
     sockaddr_in client;
     client.sin_addr.s_addr = inet_addr(argv[1]);
     client.sin_family = AF_INET;
@@ -34,29 +32,12 @@ int main(int argc,char * argv[]){
         printf("Error: %d - %s\n",errno, strerror(errno));
         exit(1);
     }
-    while(1){
-        char name[100];
-        printf("Nhap ten may tinh cua ban: ");
-        scanf("%[^\n]%*c",name);
-        if(!strncmp(name,"exit",4)){
-            break;
-        }
-        printf("Nhap ten o dia kem theo dung luong (D - 200GB): \n");
-        char disk_stor[100];
-        while (1)
-        {   
-            char input[20];
-            scanf("%[^\n]%*c",input);
-            if(!strncmp(input,"exit",4)){
-                break;
-            }
-            strcat(disk_stor,input);
-            disk_stor[strlen(input)] = '+';
-        }
-        char buf[256];
-        sprintf(buf,"%s %s",name,disk_stor);
-        send(sockfd,buf,sizeof(buf),0);
-        break;
+
+    FILE * ptr = fopen("file.txt","r");
+    char buf[256];
+    while(fgets(buf,sizeof(buf),ptr)!=NULL){
+        send(sockfd,buf,strlen(buf),0);
+        printf("%s\n",buf);
     }
     close(sockfd);
 }
