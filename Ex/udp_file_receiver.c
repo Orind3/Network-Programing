@@ -34,12 +34,14 @@ int main(int argc,char * argv[]){
     char buf[1000];
 
     while(1){
-        int data_rec = recvfrom(sockfd,buf,sizeof(buf),0,(struct sockaddr*)&server,&server_len);
-        printf("%d - %s\n",data_rec,buf);
+        struct sockaddr client;
+        int size_of_client = sizeof(client);
+        int data_rec = recvfrom(sockfd,buf,sizeof(buf),0,&client,&size_of_client);
         if(data_rec==-1){
             printf("Error: %d - %s\n",errno, strerror(errno));
             exit(1);
         }
+        printf("%d - %s\n",data_rec,buf);
         buf[data_rec] = 0;
         break;
     }
