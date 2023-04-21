@@ -37,7 +37,8 @@ int main(int argc,char * argv[]){
         scanf("%[^\n]%*c",cont);
         char buf[1000];
         sprintf(buf,"%s %s",argv[3],cont);
-        int data_send = sendto(sockfd,buf,strlen(buf),0,(struct sockaddr*)&client,sizeof(client));
+        socklen_t client_size = sizeof(client);
+        int data_send = sendto(sockfd,buf,strlen(buf),0,(struct sockaddr*)&client,client_size);
         if(data_send==-1){
             printf("Error: %d - %s\n",errno,strerror(errno));
             break;

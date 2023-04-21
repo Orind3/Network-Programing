@@ -35,7 +35,7 @@ int main(int argc,char * argv[]){
 
     while(1){
         struct sockaddr client;
-        int size_of_client = sizeof(client);
+        socklen_t size_of_client = sizeof(client);
         int data_rec = recvfrom(sockfd,buf,sizeof(buf),0,&client,&size_of_client);
         if(data_rec==-1){
             printf("Error: %d - %s\n",errno, strerror(errno));
